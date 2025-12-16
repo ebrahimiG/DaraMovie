@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "styles/filmyar.css" %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Filmyar</title>
+</head>
+<body>
+
+    {% if user.is_authenticated %}
+        <div class="login-register"><span class="welcome"><span class="yellow-letter">W</span>elcome</span>, <span class="welcome">{{user.username}} /</span><a href="{% url "logout" %}">Logout <i class="fa fa-sign-out"></i></a></div>
+    {% else %}
+        <div class="login-register">
+            <a href="{% url "login" %}"><span class="yellow-letter">L</span>ogin /</a><a href="{% url "register" %}"><span class="yellow-letter"> R</span>egister <i class="fa fa-sign-in "></i></a>
+        </div>
+    {% endif %}
+
+    <div class="backhome">
+        <a href="{% url "home" %}"><span class="yellow-letter">B</span>ack Home <i class="fas fa-home"></i></a>
+    </div>
+    <div class="chat-container">
+        <header>
+            <h1><span class="yellow">f</span>limyar <i class="fas fa-user-astronaut"></i> </h1>
+        </header>
+
+        <!-- the chat screen -->
+        <div id="chat-box" class="chat-box">
+            {% for chat in chats %}
+
+                <!-- showing chat history -->
+                    <!-- user -->
+                    <div class="message user-message">
+                        <div class="message-header"><strong>--{{chat.user.username}}--</strong></div>
+                        <div class="message-content">{{chat.message}}</div>
+                    </div>
+
+                    <!-- filmyar -->
+                    <div class="message bot-message">
+                        <div class="message-header"><strong>--Filmyar--</strong></div>
+                        <div class="message-content">{{chat.response}}</div>
+                    </div>
+
+            {% endfor %}
+            
+            <!-- bot message
+            <div class="message bot-message">
+                <div class="message-header"><strong>--Filmyar--</strong></div>
+                <div class="message-content">Hello how can i help you?</div>
+            </div> -->
+
+            
+
+        </div>
+        <div class="input-area">
+            <form  class="message-form form-style">
+                {% csrf_token %}
+                <input type="text" id="user-input" class="user-input" autocomplete="off" placeholder="Type Here..."/>
+                <div class="sendbtn">
+                    <button type="submit" class="send-btn" id="send-btn">Send</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <script src="{% static "js/script_filmyar.js" %}"></script>
+    
+</body>
+</html>
