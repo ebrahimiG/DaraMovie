@@ -13,7 +13,7 @@ from .models import Chat
 # ask ollama
 def ask_ollama(message):
     client = ollama.Client()
-    model = 'filmiar' 
+    model = 'filmiar' # or 'mistral' or any other LLM that you downloaded from ollama
     prompt = message
 
     Response = client.generate(model=model, prompt=prompt)
